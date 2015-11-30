@@ -11,7 +11,7 @@ public class Frame2 implements  ActionListener{
 
     JPanel titlePanel, scorePanel, buttonPanel;
     JLabel redLabel, blueLabel, greenLabel, redScore, blueScore, greenScore;
-    JButton redButton, blueButton, resetButton, greenButton;
+    JButton redButton, greenButton, resetButton, blueButton, playButton;
 
     public JPanel createContentPane (){
         JPanel totalGUI = new JPanel();
@@ -19,30 +19,24 @@ public class Frame2 implements  ActionListener{
         titlePanel = new JPanel();
         titlePanel.setLayout(null);
         titlePanel.setLocation(10, 0);
-        titlePanel.setSize(500, 60);
+        titlePanel.setSize(400, 60);
         totalGUI.add(titlePanel);
 
        
-        redLabel = new JLabel("Red Team");
+        redLabel = new JLabel("player score");
         redLabel.setLocation(0, 0);
         redLabel.setSize(120, 30);
         redLabel.setHorizontalAlignment(0);
         redLabel.setForeground(Color.red);
         titlePanel.add(redLabel);
         
-        greenLabel = new JLabel("Green Team");
+        greenLabel = new JLabel("enemy score");
         greenLabel.setLocation(259, 0);
         greenLabel.setSize(120, 30);
         greenLabel.setHorizontalAlignment(0);
         greenLabel.setForeground(Color.green);
         titlePanel.add(greenLabel);
 
-        blueLabel = new JLabel("Blue Team");
-        blueLabel.setLocation(130, 0);
-        blueLabel.setSize(120, 30);
-        blueLabel.setHorizontalAlignment(0);
-        blueLabel.setForeground(Color.blue);
-        titlePanel.add(blueLabel);
         scorePanel = new JPanel();
         scorePanel.setLayout(null);
         scorePanel.setLocation(10, 40);
@@ -72,20 +66,21 @@ public class Frame2 implements  ActionListener{
         buttonPanel.setLocation(10, 80);
         buttonPanel.setSize(500, 70);
         totalGUI.add(buttonPanel);
-        redButton = new JButton("Red Score!");
+        
+        redButton = new JButton("Rock");
         redButton.setLocation(0, 0);
         redButton.setSize(120, 30);
         redButton.addActionListener(this);
         buttonPanel.add(redButton);
         
-        greenButton = new JButton("Green Score!");
-        greenButton.setLocation(259, 0);
+        greenButton = new JButton("Paper");
+        greenButton.setLocation(130, 0);
         greenButton.setSize(120, 30);
         greenButton.addActionListener(this);
         buttonPanel.add(greenButton);
 
-        blueButton = new JButton("Blue Score!");
-        blueButton.setLocation(130, 0);
+        blueButton = new JButton("Scissors");
+        blueButton.setLocation(259, 0);
         blueButton.setSize(120, 30);
         blueButton.addActionListener(this);
         buttonPanel.add(blueButton);
@@ -95,6 +90,12 @@ public class Frame2 implements  ActionListener{
         resetButton.setSize(250, 30);
         resetButton.addActionListener(this);
         buttonPanel.add(resetButton);
+        
+        playButton = new JButton("play");
+        playButton.setLocation(260, 40);
+        playButton.setSize(120, 30);
+        playButton.addActionListener(this);
+        buttonPanel.add(playButton);
         
         totalGUI.setOpaque(true);
         return totalGUI;
@@ -135,7 +136,7 @@ public class Frame2 implements  ActionListener{
         frame.setContentPane(demo.createContentPane());
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 300);
+        frame.setSize(400, 200);
         frame.setVisible(true);
     }
 
