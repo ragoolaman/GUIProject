@@ -3,6 +3,10 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class Frame2 implements  ActionListener{
     int redScoreAmount = 0;
@@ -12,6 +16,11 @@ public class Frame2 implements  ActionListener{
     JPanel titlePanel, scorePanel, buttonPanel;
     JLabel redLabel, blueLabel, greenLabel, redScore, blueScore, greenScore;
     JButton redButton, greenButton, resetButton, blueButton, playButton;
+    
+    Random rand = new Random();
+    int n = rand.nextInt(3) + 1;
+    int pressCheck = 0;
+    int setChoice = 0;
 
     public JPanel createContentPane (){
         JPanel totalGUI = new JPanel();
@@ -19,7 +28,7 @@ public class Frame2 implements  ActionListener{
         titlePanel = new JPanel();
         titlePanel.setLayout(null);
         titlePanel.setLocation(10, 0);
-        titlePanel.setSize(400, 60);
+        titlePanel.setSize(410, 60);
         totalGUI.add(titlePanel);
 
        
@@ -50,13 +59,13 @@ public class Frame2 implements  ActionListener{
         scorePanel.add(redScore);
         
         greenScore = new JLabel(""+redScoreAmount);
-        greenScore.setLocation(300, 0);
+        greenScore.setLocation(130, 0);
         greenScore.setSize(120, 30);
         greenScore.setHorizontalAlignment(0);
         scorePanel.add(greenScore);
 
         blueScore = new JLabel(""+blueScoreAmount);
-        blueScore.setLocation(130, 0);
+        blueScore.setLocation(260, 0);
         blueScore.setSize(120, 30);
         blueScore.setHorizontalAlignment(0);
         scorePanel.add(blueScore);
@@ -71,18 +80,21 @@ public class Frame2 implements  ActionListener{
         redButton.setLocation(0, 0);
         redButton.setSize(120, 30);
         redButton.addActionListener(this);
+        redButton.setBackground(Color.WHITE);
         buttonPanel.add(redButton);
         
         greenButton = new JButton("Paper");
         greenButton.setLocation(130, 0);
         greenButton.setSize(120, 30);
         greenButton.addActionListener(this);
+        greenButton.setBackground(Color.WHITE);
         buttonPanel.add(greenButton);
 
         blueButton = new JButton("Scissors");
         blueButton.setLocation(259, 0);
         blueButton.setSize(120, 30);
         blueButton.addActionListener(this);
+        blueButton.setBackground(Color.WHITE);
         buttonPanel.add(blueButton);
 
         resetButton = new JButton("Reset Score");
@@ -100,22 +112,25 @@ public class Frame2 implements  ActionListener{
         totalGUI.setOpaque(true);
         return totalGUI;
     }
-
+    
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == redButton)
+        if(e.getSource() == redButton && pressCheck == 0)
         {
-            redScoreAmount = redScoreAmount + 1;
-            redScore.setText(""+redScoreAmount);
+            redButton.setBackground(Color.GREEN);
+            pressCheck = pressCheck + 1;
+            setChoice = 1;
         }
-        else if(e.getSource() == blueButton)
+        else if(e.getSource() == blueButton && pressCheck == 0)
         {
-            blueScoreAmount = blueScoreAmount + 1;
-            blueScore.setText(""+blueScoreAmount);
+            blueButton.setBackground(Color.GREEN);
+            pressCheck = pressCheck + 1;
+            setChoice = 2;
         }
-        else if(e.getSource() == greenButton)
+        else if(e.getSource() == greenButton && pressCheck == 0)
         {
-            greenScoreAmount = greenScoreAmount + 1;
-            greenScore.setText(""+greenScoreAmount);
+        	greenButton.setBackground(Color.GREEN);
+            pressCheck = pressCheck + 1;
+            setChoice = 3;
         }
         else if(e.getSource() == resetButton)
         {
@@ -126,7 +141,63 @@ public class Frame2 implements  ActionListener{
             blueScore.setText(""+blueScoreAmount);
             greenScore.setText(""+greenScoreAmount);
         }
+        else if(e.getSource() == playButton) 
+        {
+            int n = rand.nextInt(3) + 1;
+            long t = System.currentTimeMillis() + 4000;
+          
+        	if (n == 1) 
+        	{
+        		redButton.setBackground(Color.RED);
+        	} else if (n == 2) 
+        	{
+        		blueButton.setBackground(Color.RED);
+        	} else if (n == 3) 
+        	{
+        		greenButton.setBackground(Color.RED);
+        	}
+        	if (n == 1 && setChoice == 2) 
+        	{
+        		blueScoreAmount = blueScoreAmount + 1;
+                blueScore.setText(""+blueScoreAmount);
+        	} else if (n == 2 && setChoice == 3) 
+        	{
+        		blueScoreAmount = blueScoreAmount + 1;
+                blueScore.setText(""+blueScoreAmount);
+        	} else if (n == 3 && setChoice == 1) 
+        	{
+        		blueScoreAmount = blueScoreAmount + 1;
+                blueScore.setText(""+blueScoreAmount);
+        	}
+        	if (setChoice == 1 && n == 2) 
+        	{
+        		redScoreAmount = redScoreAmount + 1;
+                redScore.setText(""+redScoreAmount);
+        	} else if (setChoice == 2 && n == 3) 
+        	{
+        		redScoreAmount = redScoreAmount + 1;
+                redScore.setText(""+redScoreAmount);
+        	} else if (setChoice == 3 && n == 1) 
+        	{
+        		redScoreAmount = redScoreAmount + 1;
+                redScore.setText(""+redScoreAmount);
+        	} else if (n == setChoice) 
+        	{
+        		System.out.println("Tie!");
+        	}
+        	while (t != System.currentTimeMillis()) 
+        	{
+        		System.out.println("Waiting");
+        	}
+    		redButton.setBackground(Color.WHITE);
+    		blueButton.setBackground(Color.WHITE);
+    		greenButton.setBackground(Color.WHITE);
+    		pressCheck = 0;
+    		n = 0;
+    		setChoice = 0;
+        }
     }
+
 
     private static void createAndShowGUI() {
 
@@ -136,7 +207,7 @@ public class Frame2 implements  ActionListener{
         frame.setContentPane(demo.createContentPane());
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 200);
+        frame.setSize(410, 200);
         frame.setVisible(true);
     }
 
