@@ -3,24 +3,23 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
-public class Frame2 implements  ActionListener{
+public class gui implements  ActionListener{
     int redScoreAmount = 0;
     int blueScoreAmount = 0;
     int greenScoreAmount = 0;
 
     JPanel titlePanel, scorePanel, buttonPanel;
-    JLabel redLabel, blueLabel, greenLabel, redScore, blueScore, greenScore;
-    JButton redButton, greenButton, resetButton, blueButton, playButton;
+    JLabel redLabel, blueLabel, greenLabel, redScore, blueScore, greenScore, results;
+    JButton redButton, greenButton, resetButton, blueButton, playButton, nextButton;
     
     Random rand = new Random();
     int n = rand.nextInt(3) + 1;
     int pressCheck = 0;
     int setChoice = 0;
+    int buttonCheck = 0;
+    int resetCheck = 0;
 
     public JPanel createContentPane (){
         JPanel totalGUI = new JPanel();
@@ -45,7 +44,7 @@ public class Frame2 implements  ActionListener{
         greenLabel.setHorizontalAlignment(0);
         greenLabel.setForeground(Color.green);
         titlePanel.add(greenLabel);
-
+        
         scorePanel = new JPanel();
         scorePanel.setLayout(null);
         scorePanel.setLocation(10, 40);
@@ -99,7 +98,7 @@ public class Frame2 implements  ActionListener{
 
         resetButton = new JButton("Reset Score");
         resetButton.setLocation(0, 40);
-        resetButton.setSize(250, 30);
+        resetButton.setSize(120, 30);
         resetButton.addActionListener(this);
         buttonPanel.add(resetButton);
         
@@ -108,6 +107,12 @@ public class Frame2 implements  ActionListener{
         playButton.setSize(120, 30);
         playButton.addActionListener(this);
         buttonPanel.add(playButton);
+        
+        nextButton = new JButton("next");
+        nextButton.setLocation(130,40);
+        nextButton.setSize(120,30);
+        nextButton.addActionListener(this);
+        buttonPanel.add(nextButton);
         
         totalGUI.setOpaque(true);
         return totalGUI;
@@ -132,19 +137,37 @@ public class Frame2 implements  ActionListener{
             pressCheck = pressCheck + 1;
             setChoice = 3;
         }
-        else if(e.getSource() == resetButton)
+        else if(e.getSource() == resetButton && resetCheck == 0)
         {
-            redScoreAmount = 0;
+        	resetCheck = 1;
+        	blueButton.setBackground(Color.WHITE);
+        	greenButton.setBackground(Color.WHITE);
+        	redButton.setBackground(Color.WHITE);
+            System.out.println("Your final score is "+redScoreAmount);
+            System.out.println("The enemy's final score is "+blueScoreAmount);
+            if (redScoreAmount > blueScoreAmount) 
+            {
+            	System.out.println("You won!");
+            } else if (redScoreAmount < blueScoreAmount) 
+            {
+            	System.out.println("You lost!");
+            } else if (redScoreAmount == blueScoreAmount) 
+            {
+            	System.out.println("You tied!");
+            }
+        	setChoice = 0;
+        	pressCheck = 0;
+        	buttonCheck = 0;
+        	redScoreAmount = 0;
             blueScoreAmount = 0;
             greenScoreAmount = 0;
             redScore.setText(""+redScoreAmount);
             blueScore.setText(""+blueScoreAmount);
             greenScore.setText(""+greenScoreAmount);
         }
-        else if(e.getSource() == playButton) 
+        else if(e.getSource() == playButton && buttonCheck == 0) 
         {
             int n = rand.nextInt(3) + 1;
-            long t = System.currentTimeMillis() + 4000;
           
         	if (n == 1) 
         	{
@@ -185,16 +208,16 @@ public class Frame2 implements  ActionListener{
         	{
         		System.out.println("Tie!");
         	}
-        	while (t != System.currentTimeMillis()) 
-        	{
-        		System.out.println("Waiting");
-        	}
-    		redButton.setBackground(Color.WHITE);
-    		blueButton.setBackground(Color.WHITE);
-    		greenButton.setBackground(Color.WHITE);
-    		pressCheck = 0;
-    		n = 0;
-    		setChoice = 0;
+        	buttonCheck = 1;
+        }
+        if (e.getSource() == nextButton) 
+        {
+        	blueButton.setBackground(Color.WHITE);
+        	greenButton.setBackground(Color.WHITE);
+        	redButton.setBackground(Color.WHITE);
+        	setChoice = 0;
+        	pressCheck = 0;
+        	buttonCheck = 0;
         }
     }
 
@@ -203,7 +226,7 @@ public class Frame2 implements  ActionListener{
 
         JFrame.setDefaultLookAndFeelDecorated(true);
         JFrame frame = new JFrame("[=] JButton Scores! [=]");
-        Frame2 demo = new Frame2();
+        gui demo = new gui();
         frame.setContentPane(demo.createContentPane());
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
