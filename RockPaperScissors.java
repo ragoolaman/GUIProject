@@ -35,14 +35,14 @@ public class gui implements  ActionListener{
         redLabel.setLocation(0, 0);
         redLabel.setSize(120, 30);
         redLabel.setHorizontalAlignment(0);
-        redLabel.setForeground(Color.red);
+        redLabel.setForeground(Color.green);
         titlePanel.add(redLabel);
         
         greenLabel = new JLabel("enemy score");
         greenLabel.setLocation(259, 0);
         greenLabel.setSize(120, 30);
         greenLabel.setHorizontalAlignment(0);
-        greenLabel.setForeground(Color.green);
+        greenLabel.setForeground(Color.red);
         titlePanel.add(greenLabel);
         
         scorePanel = new JPanel();
